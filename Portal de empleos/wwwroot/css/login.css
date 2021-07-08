@@ -1,0 +1,249 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-register {
+    background: #2cb575;
+    border: none;
+    display: none;
+}
+
+body {
+    background: url("../img/fondo.jpg") no-repeat;
+    background-size: cover;
+    background-position-y: 13%;
+}
+
+.container-fluid {
+    height: 657px;
+    padding-top: 111px;
+}
+
+h1 {
+    color: #133164;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    font-family: 'Rubik';
+    font-size: 28px;
+}
+
+    h1 span {
+        text-decoration: 2px underline dashed #ff5f7e;
+        text-underline-offset: 5px;
+    }
+
+h3 {
+    font-size: 19px;
+}
+
+h4 {
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.container-child {
+    height: 440px;
+    min-height: 400px;
+}
+
+    .container-child:first-child {
+        background-color: #d8e4f8;
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        padding: 30px 80px 0px 40px;
+    }
+
+        .container-child:first-child img {
+            padding-top: 18px;
+            width: 285px;
+            max-width: 100%;
+        }
+
+    .container-child:last-child {
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        padding: 30px 65px 0px 50px;
+    }
+
+form {
+    padding-top: 19px;
+}
+
+
+.form-label {
+    color: #133164;
+    font-weight: 500;
+}
+
+.form-control {
+    background-color: #f5f9ff;
+    border-radius: 20px;
+    height: 40px;
+}
+
+.form-check-container {
+    color: #133164;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.form-check-input {
+    height: 20px;
+    width: 20px;
+}
+
+input[type="submit"] {
+    width: 37%;
+    height: 40px;
+    border: 21px;
+    font-weight: 500;
+    background-color: #4ec3ed;
+    color: #ffffff;
+    transition: linear 400ms;
+}
+
+    input[type="submit"]:hover {
+        background-color: #5a99af;
+        color: #ffffff;
+    }
+
+.link-register {
+    color: #133164;
+    font-weight: 500;
+}
+
+    .link-register a {
+        color: #4dc3fc;
+        font-weight: 500;
+    }
+
+        .link-register a:hover {
+            text-decoration: underline;
+        }
+
+
+/* iconos*/
+
+
+i {
+    color: #0b2a5e;
+}
+
+.mail {
+    top: 45px;
+    margin-left: 19px;
+}
+
+.pass {
+    top: 44px;
+    margin-left: 19px;
+}
+
+.password-visor {
+    width: 100%;
+    top: 45px;
+    padding-right: 22px;
+}
+
+
+/* media queries */
+@media screen and (max-width:1290px) {
+    .container-child:first-child {
+        padding: 30px 0px 0px 0px;
+    }
+
+        .container-child:first-child img {
+            padding-right: 34px;
+            width: 320px;
+        }
+
+    .container-child:last-child {
+        padding: 30px 35px 0px 50px;
+    }
+
+    .container-child:last-child {
+        padding: 30px 35px 0px 35px;
+    }
+
+    h1 {
+        padding-left: 15px;
+    }
+}
+
+@media screen and (max-width:980px) {
+    .container-child:last-child {
+        padding: 30px 20px 0px 35px;
+    }
+
+    input[type="submit"] {
+        width: 100%;
+    }
+
+    body {
+        background-position-y: 93%;
+    }
+
+    .container-child:last-child {
+        padding: 30px 20px 0px 25px;
+    }
+
+    .container-child:first-child img {
+        width: 305px;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .container-fluid {
+        padding-top: 0;
+    }
+
+    .container-child:first-child, .container-child:last-child {
+        border-radius: 0;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    header {
+        padding-left: 20px;
+    }
+}
+
+@media screen and (max-width:282px) {
+    h3 {
+        font-size: 17px;
+    }
+
+    .container-child:last-child {
+        padding: 30px 20px 0px 8px;
+    }
+
+    header {
+        padding: 0;
+        padding-right: 16px;
+    }
+
+    h3 {
+        font-size: 15px;
+    }
+
+    .link-register {
+        display: none !important;
+    }
+
+    .btn-register {
+        display: block;
+    }
+}

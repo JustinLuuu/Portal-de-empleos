@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="@Url.Content("~/css/login.css")" />
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-12 col-sm-12 col-md-4 col-lg-4 container-child">
+        <header class="w-100 text-center">
+            <h1><strong><span>Bienvenido</span> a tu lugar</strong></h1>
+            <h3>¡ Un placer verte de vuelta !</h3>
+        </header>
+        <img src="~/img/pinguinoconsombrilla.png" class="d-block m-auto" alt="pinguino-con-sombrilla">
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-5 col-lg-5 bg-white container-child">
+        <main>
+            <h4 class="pt-1">Inicia sesión y comienza a publicar nuevas oportunidades de empleo</h4>
+            <form method="post" class="d-flex flex-column">
+                <div class="mb-3 position-relative">
+                    <label class="form-label">Email</label>
+                    <input type="email" required class="form-control ps-5" placeholder="email@service.com">
+                    <i class="fas fa-envelope mail position-absolute"></i>
+                </div>
+                <div class="mb-4 position-relative">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" required class="form-control ps-5 input_password"
+                           placeholder="**************">
+                    <i class="fas fa-lock pass position-absolute"></i>
+                    <div class="password-visor position-absolute d-flex justify-content-end">
+                        <i class="far fa-eye eye-open position-absolute"></i>
+                        <i class="far fa-eye-slash eye-closed position-absolute"></i>
+                    </div>
+                </div>
+
+                <div class="mb-4 ps-1 form-check-container">
+                    <input class="form-check-input me-2" type="checkbox" checked
+                           id="flexCheckIndeterminate">Recordarme
+                </div>
+                <input type="submit" class="btn shadow-sm align-self-center" value="Iniciar Sesion">
+            </form>
+
+            <span class="link-register d-flex justify-content-center w-100 d-block mt-4">
+                Aún no tienes cuenta?
+                <a href="#!" class="ps-1">Regístrate</a>
+            </span>
+            <a class="btn btn-success w-100 btn-register mt-2" href="#!">Registrarse</a>
+        </main>
+    </div>
+</div>
+
+@section scripts{
+    <script src="@Url.Content("~/js/login.js")"></script>
+    <script src="https://kit.fontawesome.com/1d9813da54.js" crossorigin="anonymous"></script>
+}

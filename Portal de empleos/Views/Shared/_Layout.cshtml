@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+    <!--No borrar-->
+    <environment include="Desarrollo">
+        <link rel="stylesheet" href="@Url.Content("~/css/bootstrap css/bootstrap.css")" />
+    </environment>
+    <!--No borrar-->
+    <environment exclude="Desarrollo">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
+              asp-fallback-href="@Url.Content("~/css/bootstrap css/bootstrap.css")"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute" />
+    </environment>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <!--No borrar-->
+    @RenderSection("Styles", required: false)
+    <title>@ViewData["Title"] - Portal de empleos</title>
+</head>
+
+<body>
+    <partial name="_CookieConsentPartial" />
+    <div class="container-fluid">
+
+        @if (IsSectionDefined("Header"))
+        {
+            <!--Header personalizado-->
+            @RenderSection("Header", required: false)
+        }
+        else
+        {
+            <!--Header por defecto-->
+            <header>
+                <!--Nav-->
+                <nav>
+
+                </nav>
+            </header>
+        }
+
+
+        <!--Inicio contenido pagina-->
+        @RenderBody()
+        <!--Final contenido pagina-->
+        <!--Footer-->
+        <footer>
+            <p></p>
+        </footer>
+    </div>
+
+    <!--No borrar-->
+    <environment include="Desarrollo">
+        <script src="@Url.Content("~/js/bootstrap js/bootstrap.bundle.js")"></script>
+    </environment>
+    <!--No borrar-->
+    <environment exclude="Desarrollo">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-src="@Url.Content("~/js/bootstrap js/bootstrap.bundle.js")"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous">
+        </script>
+    </environment>
+
+    <!--No borrar-->
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
