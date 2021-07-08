@@ -13,7 +13,6 @@ namespace Portal_de_empleos
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("a");
             CreateHostBuilder(args).Build().Run();
         }
 
