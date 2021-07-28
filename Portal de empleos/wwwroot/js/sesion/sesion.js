@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const containerFluid = document.querySelector('.container-fluid');
     containerFluid.classList.add('p-0', 'px-lg-0', 'px-md-0');
     valorFormFiltro();
-    AgregarEventIconoBasura();
 });
 
 cardFiltroOpcion.addEventListener('change', () => {
@@ -188,56 +187,6 @@ function ResetForms() {
 function ResetFotoUpdatePerfil() {
     const imgSrc = document.querySelector('.img-profile').src;
     document.querySelector('#update-img-perfil').src = imgSrc;
-}
-
-function AgregarEventIconoBasura() {
-    const tdIconos =
-        document.querySelectorAll('table tr td:last-child') ?
-            document.querySelectorAll('table tr td:last-child .fa-trash-alt') : null;
-    if (tdIconos) {
-        tdIconos.forEach(x => {
-            x.addEventListener('click', EliminarOferta);
-        });
-    }
-}
-
-function EliminarOferta(eventTrigger) {
-    if (eventTrigger.target.classList.contains('fa-trash-alt')) {
-
-        Swal.fire({
-            text: '¿ Seguro que quieres eliminar esta oferta ?',
-            imageUrl: `../img/basura.png`,
-            imageWidth: 140,
-            imageHeight: 140,
-            imageAlt: 'bote-basura',
-            showDenyButton: true,
-            denyButtonText: 'Cancelar',
-            denyButtonColor: '#E19216',
-            showConfirmButton: true,
-            confirmButtonColor: '#D14529',
-            confirmButtonText: 'Eliminar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const idOferta = eventTrigger.target.getAttribute('data-idOferta');
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = 'EliminarOferta';
-                form.controller = 'Acceso';
-                form.style.display = 'none';
-
-                const id = document.createElement('input');
-                id.setAttribute('name', 'ID');
-                id.setAttribute('type', 'hidden');
-                id.setAttribute('value', idOferta);
-                const token = document.getElementsByName("__RequestVerificationToken")[0].cloneNode(true);
-
-                form.appendChild(id);
-                form.appendChild(token);
-                document.body.appendChild(form);
-                form.submit();
-            }
-        });
-    }
 }
 
 function EnviarPeticion(tipoOrden) {

@@ -78,6 +78,12 @@
     </table>
 </div>
 
+<div class="d-none">
+    <form asp-action="EliminarOferta" asp-controller="Acceso" method="post" id="form-eliminarOferta">
+        <input type="hidden" name="ID" id="input-idOferta" value="" />
+    </form>
+</div>
+
 <!--MODAL OFERTA-->
 <div class="modal fade" id="modal-oferta" tabindex="-1" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -137,7 +143,7 @@
                 </button>
 
                 <button class="btn btn-danger mt-0 mt-2 mb-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="Eliminar oferta" id="btn-eliminarOferta">
+                        title="Eliminar oferta" id="btn-modal-eliminarOferta">
                     <i class="fas fa-trash-alt text-white"></i>
                 </button>
 
@@ -152,6 +158,18 @@
 
 <script>
     const arrayOfertas = @Html.Raw(Json.Serialize(Model));
+    const tdIconoBasura = document.querySelectorAll('table tr td:last-child .fa-trash-alt');
+
+    // listeners
+    tdIconoBasura.forEach(x => {
+        x.addEventListener('click', (eventTrigger) => {
+            const idOferta = eventTrigger.target.getAttribute('data-idOferta');
+            EliminarOferta(idOferta);
+        });
+    });
+
+    // funciones
+
     function OfertaInfo(idOferta) {
         const oferta = arrayOfertas.find(x => x.id === idOferta);
 
@@ -200,7 +218,7 @@
             requisitosUl.appendChild(li);
         });
 
-        const btnEliminar = document.querySelector('#btn-eliminarOferta');
+        const btnEliminar = document.querySelector('#btn-modal-eliminarOferta');
         btnEliminar.addEventListener('click', () => { EliminarOferta(idOferta) });
     }
 
@@ -219,24 +237,11 @@
             confirmButtonText: 'Eliminar'
         }).then((result) => {
             if (result.isConfirmed) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = 'EliminarOferta';
-                form.controller = 'Acceso';
-                form.style.display = 'none';
-
-                const id = document.createElement('input');
-                id.setAttribute('name', 'ID');
-                id.setAttribute('type', 'hidden');
-                id.setAttribute('value', idOferta);
-                const token = document.getElementsByName("__RequestVerificationToken")[0].cloneNode(true);
-
-                form.appendChild(id);
-                form.appendChild(token);
-                document.body.appendChild(form);
+                const form = document.querySelector('#form-eliminarOferta');                
+                const input = document.querySelector('#input-idOferta');
+                input.value = idOferta;                
                 form.submit();
             }
         });
     }
-
 </script>
