@@ -1,9 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Sesion";
-}
+﻿@model Portal_de_empleos.Models.Ofertante
+@using Portal_de_empleos.Controllers.Recursos.Enumerados;
 
 @section Styles {
-    <link rel="stylesheet" href="@Url.Content("~/css/sesion.css")" />
+    <link rel="stylesheet" href='@Url.Content("~/css/sesion.css")' asp-append-version="true" />
+}
+
+@{
+    ViewData["Title"] = "Sesion";
+    var listaOfertas = ViewData["Ofertas"] as List<Oferta>;
 }
 
 
@@ -19,9 +23,10 @@
                 <ul class="d-flex m-auto w-100" style="list-style: none;">
 
                     <li>
-                        <form class="m-auto nav-searcher">
+                        <form asp-controller="Acceso" asp-action="FiltrarOfertas" method="get"
+                              class="m-auto nav-searcher">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light shadow-none"
+                                <input type="text" name="busqueda" class="form-control bg-light shadow-none"
                                        placeholder="Haz una búsqueda..">
 
                                 <div class="input-group-append">
@@ -39,11 +44,11 @@
                             <div class="pe-2 d-flex">
                                 <div class="me-3 text-center ">
                                     <h6 class="m-0 p-0 text-muted">¡ Bienvenid@@ !</h6>
-                                    <span class="me-2 text-gray-600 user-name">Carlos Eliezel Santos</span>
+                                    <span class="me-2 text-gray-600 user-name">@Model.NOMBRE_COMPLETO</span>
                                 </div>
                                 <img class="img-profile rounded-circle" data-bs-toggle="modal"
                                      data-bs-target="#modal-perfil"
-                                     src="https://avatars.githubusercontent.com/u/70111182?v=4" alt="foto-de-carlos">
+                                     src="@Model.FOTO" alt="foto-de-@Model.NOMBRE">
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center ms-4">
@@ -62,7 +67,9 @@
         </nav>
     </header>
 }
+
 <main>
+
     <!-- Begin Page Content -->
     <section class="container-fluid px-lg-4">
         <div class="my-4 d-flex justify-content-end">
@@ -87,33 +94,33 @@
         </form>
 
 
-        <div class="cards d-flex">
+        <section class="cards d-flex">
 
-            <div class="card-single rounded d-flex justify-content-between">
+            <article class="card-single rounded d-flex justify-content-between">
                 <div>
-                    <h3 class="fw-bold">5</h3>
+                    <h3 class="fw-bold">@Model.CANTIDAD_OFERTAS</h3>
                     <span>Ofertas publicadas por ti</span>
                 </div>
                 <div>
                     <i class="fas fa-briefcase"></i>
                 </div>
-            </div>
+            </article>
 
 
-            <div class="card-single rounded d-flex justify-content-between">
+            <article class="card-single rounded d-flex justify-content-between">
                 <div>
-                    <h3 class="fw-bold">12</h3>
+                    <h3 class="fw-bold">@Model.CANTIDAD_CLICK</h3>
                     <span>Copiaron/Clickearon tu correo</span>
                 </div>
                 <div>
                     <i class="far fa-hand-pointer"></i>
                 </div>
-            </div>
+            </article>
 
-            <div class="card-single card-searcher pe-0 rounded">
-                <form action="" class="ps-2 card-form-filtro">
-                    <label for=""><i class="fas fa-filter me-2"></i> Filtrar por:</label>
-                    <select name="busqueda" class="ms-3 selectOpt">
+            <article class="card-single card-searcher pe-0 rounded">
+                <form asp-controller="Acceso" asp-action="FiltrarOfertas" method="get" class="ps-2 card-form-filtro">
+                    <label><i class="fas fa-filter me-2"></i> Filtrar por:</label>
+                    <select class="ms-3 selectOpt">
                         <option selected>Seleccionar</option>
                         <option>Titulo de oferta</option>
                         <option>Empresa</option>
@@ -131,68 +138,68 @@
 
                         <input type="text" class="search form-control"
                                placeholder="Escribe titulo de oferta">
+
                         <select class="search">
                             <option selected disabled hidden>Seleccionar&nbsp;&nbsp;Empresa</option>
-                            <option>ITGES</option>
-                            <option>CLARO</option>
-                            <option>CODETEL</option>
-                            <option>GBH</option>
-                            <option>TIGERCODER</option>
-                            <option>GOOGLE</option>
-                            <option>AMAZON</option>
+                            @foreach (string empresa in
+                        listaOfertas.Select(x => x.EMPRESA).Distinct().ToList())
+                            {
+                                <option value="@empresa">@empresa</option>
+                            }
                         </select>
+
                         <select class="search">
                             <option selected disabled hidden>Seleccionar&nbsp;&nbsp;Provincia</option>
-                            <option>Dajabon</option>
-                            <option>Peravia</option>
-                            <option>Santo Domingo</option>
-                            <option>Higuey</option>
-                            <option>Santiago</option>
-                            <option>Pedernales</option>
+                            @foreach (string provincia in
+                        listaOfertas.Select(x => x.PROVINCIA.NOMBRE).Distinct().ToList())
+                            {
+                                <option value="@provincia">@provincia</option>
+                            }
                         </select>
+
                         <select class="search">
                             <option selected disabled hidden>Seleccionar&nbsp;&nbsp;Categoria</option>
-                            <option>Tecnologia</option>
-                            <option>Belleza</option>
-                            <option>Construccion</option>
+                            @foreach (string categoria in
+                        listaOfertas.Select(x => x.CATEGORIA.NOMBRE).Distinct().ToList())
+                            {
+                                <option value="@categoria">@categoria</option>
+                            }
                         </select>
+
                         <select class="search">
                             <option selected disabled hidden>Seleccionar&nbsp;&nbsp;Tiempo</option>
-                            <option>Tiempo Completo</option>
-                            <option>Medio Tiempo</option>
-                            <option>Temporal</option>
+                            <option value="Tiempo Completo">Tiempo Completo</option>
+                            <option value="Medio Tiempo">Medio Tiempo</option>
+                            <option value="Temporal">Temporal</option>
                         </select>
+
                         <select class="search">
                             <option selected disabled hidden>Seleccionar&nbsp;&nbsp;Modalidad</option>
-                            <option>Presencial</option>
-                            <option>Remoto</option>
+                            <option value="Presencial">Presencial</option>
+                            <option value="Remoto">Remoto</option>
                         </select>
 
                         <input type="date" class="search form-control">
 
+                        <input type="hidden" name="busqueda" id="filtroValor" />
                         <input class="btn btn-info fw-bold ms-3" value="Buscar" type="submit">
                     </div>
                 </form>
-            </div>
+            </article>
+        </section>
 
-        </div>
-
-
-
-        <!-- column -->
-        <div class="col-md-12">
-            <div class="card border-0 mb-5">
+        @if (listaOfertas.Count > 0)
+        {
+            <article class="card border-0 mb-5 w-100">
                 <div class="card-body">
                     <!-- title -->
                     <div class="d-md-flex align-items-center">
                         <div>
                             <h4 class="card-title">Ofertas de empleo publicadas</h4>
-                            <h5 class="card-subtitle">Vista de ultimas ofertas publicadas</h5>
-                            <select class="form-select mt-2 shadow-none">
-                                <option value="0" selected="">Monthly</option>
-                                <option value="1">Daily</option>
-                                <option value="2">Weekly</option>
-                                <option value="3">Yearly</option>
+                            <h5 class="card-subtitle titulo-tipo-orden">Vista de últimas ofertas publicadas</h5>
+                            <select asp-items="@Html.GetEnumSelectList<Ordenar>()"
+                                    class="form-select mt-2 shadow-none font-14 select-ordenar">
+                                <option selected value="null">Ordenar por</option>
                             </select>
                         </div>
                         <div class="ms-auto">
@@ -204,182 +211,22 @@
                     <!-- title -->
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table v-middle">
-                        <thead>
-                            <tr class="bg-light">
-                                <th class="border-top-0">Empresa</th>
-                                <th class="border-top-0">Titulo</th>
-                                <th class="border-top-0">Categoria</th>
-                                <th class="border-top-0">Provincia</th>
-                                <th class="border-top-0">Modalidad</th>
-                                <th class="border-top-0">Sueldo</th>
-                                <th class="border-top-0">Fecha</th>
-                                <th class="border-top-0"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="m-r-10">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/LogoClaro2017.png"
-                                                 alt="" width="35">
-                                        </div>
-                                        <div class="">
-                                            <h4 class="m-b-0 font-16">Claro</h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    Programador Java con +1..
-                                </td>
-                                <td>
-                                    Tecnologia
-                                </td>
-                                <td>
-                                    Santo Domingo
-                                </td>
-                                <td>
-                                    Presencial
-                                </td>
-                                <td>
-                                    50,000 RD$
-                                </td>
-                                <td>
-                                    20 May, 2021
-                                </td>
-                                <td>
-                                    <i class="fas fa-eye" title="Ver detalle" data-bs-toggle="modal"
-                                       data-bs-target="#modal-oferta"></i>
-                                    <i class="fas fa-pencil-alt" title="Editar"></i>
-                                    <i class="fas fa-trash-alt" title="Eliminar"></i>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="m-r-10">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Altice_Logo.jpg"
-                                                 alt="" width="35">
-                                        </div>
-                                        <div class="">
-                                            <h4 class="m-b-0 font-16">Altice</h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    Conserje responsable
-                                </td>
-                                <td>
-                                    Limpieza
-                                </td>
-                                <td>
-                                    Santiago
-                                </td>
-                                <td>
-                                    Presencial
-                                </td>
-                                <td>
-                                    5,000 RD$
-                                </td>
-                                <td>
-                                    27 Ene, 2021
-                                </td>
-                                <td>
-                                    <i class="fas fa-eye" title="Ver detalle"></i>
-                                    <i class="fas fa-pencil-alt" title="Editar"></i>
-                                    <i class="fas fa-trash-alt" title="Eliminar"></i>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="m-r-10">
-                                            <img src="https://www.eljaya.com/wp-content/uploads/2016/07/15Aster.jpg"
-                                                 alt="" width="35">
-                                        </div>
-                                        <div class="">
-                                            <h4 class="m-b-0 font-16">Aster</h4>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    Contable habil y rapido
-                                </td>
-                                <td>
-                                    Administracion
-                                </td>
-                                <td>
-                                    Monte Plata
-                                </td>
-                                <td>
-                                    Remoto
-                                </td>
-                                <td>
-                                    35,000 RD$
-                                </td>
-                                <td>
-                                    13 Feb, 2021
-                                </td>
-                                <td>
-                                    <i class="fas fa-eye" title="Ver detalle"></i>
-                                    <i class="fas fa-pencil-alt" title="Editar"></i>
-                                    <i class="fas fa-trash-alt" title="Eliminar"></i>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="m-r-10">
-                                            <img src="https://www.clipartmax.com/png/small/277-2772699_la-empresa-de-telecomunicaciones-y-entretenimiento-tricom-republica-dominicana.png"
-                                                 alt="" width="35">
-                                        </div>
-                                        <div class="">
-                                            <h4 class="m-b-0 font-16">Tricom</h4>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    Administrador de Red
-                                </td>
-                                <td>
-                                    Tecnologia
-                                </td>
-                                <td>
-                                    Presencial
-                                </td>
-                                <td>
-                                    Temporal
-                                </td>
-                                <td>
-                                    45,000
-                                </td>
-                                <td>
-                                    31 Oct, 2021
-                                </td>
-                                <td>
-                                    <i class="fas fa-eye" title="Ver detalle"></i>
-                                    <i class="fas fa-pencil-alt" title="Editar"></i>
-                                    <i class="fas fa-trash-alt" title="Eliminar"></i>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
+                @*Invocando vista parcial para mostrar tabla de ofertas*@
+                <partial name="_OfertasDatos" model="listaOfertas" />
+            </article>
+        }
+        else
+        {
+            <article class="d-flex justify-content-center text-center flex-column">
+                <img src="~/img/maletin.png" width="150" class="d-block m-auto" alt="maletin">
+                <a class="btn d-block m-auto text-white mt-2 btn-agregar-oferta" href="#!">
+                    Publicar nueva oferta <i class="ms-2 fas fa-plus"></i>
+                </a>
+            </article>
+        }
     </section>
 
-    <!--MODALES-->
+    <!--MODALES VISTA-->
 
     <section>
         <!--MODAL PERFIL-->
@@ -388,16 +235,19 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header border-0 d-flex justify-content-center">
-                        <img src="https://avatars.githubusercontent.com/u/70111182?v=4"
+                        <img src="@Model.FOTO"
                              class="rounded-circle" alt="">
                         <h2 class="w-100 text-center">
-                            Carlos Eliezer Santos
+                            @Model.NOMBRE_COMPLETO
                         </h2>
                     </div>
                     <div class="modal-body w-100 d-flex flex-column text-center">
-                        <p><i class="fas fa-comment-dots"></i>Buscando empleados</p>
-                        <p><i class="fas fa-envelope"></i>carshloz@hotmail.com</p>
-                        <p><i class="fas fa-globe"></i>www.carlosSantos.com</p>
+
+                        @if (Model.BUSCANDO != string.Empty)
+                        {<p><i class="fas fa-comment-dots"></i>Buscando @Model.BUSCANDO</p>}
+                        <p><i class="fas fa-envelope"></i>@Model.EMAIL</p>
+                        @if (Model.URL_SITIO != string.Empty)
+                        {<p><i class="fas fa-globe"></i>@Model.URL_SITIO</p>}
                     </div>
                     <div class="modal-footer border-0 p-0">
                         <button type="button" class="btn btn-danger mt-2 mb-2" data-bs-dismiss="modal">
@@ -442,58 +292,58 @@
                             Ajustes del perfil <i class="fas fa-user-cog"></i>
                         </h2>
                     </div>
-                    <form action="" class="row modal-body pt-0 perfil-update-form">
+                    <form asp-controller="Acceso" asp-action="ActualizarInfo" method="post" enctype="multipart/form-data" class="row modal-body pt-0 perfil-update-form" id="perfil-update-form">
 
                         <div class="col-12 mb-3 d-flex justify-content-center">
                             <div class="update-img">
-                                <img src="https://avatars.githubusercontent.com/u/70111182?v=4"
-                                     class="rounded-circle me-3" id="update-img-perfil" alt="">
-                                <input type="file" id="update-image-file" class="input-profile d-none"
+                                <img src="@Model.FOTO"
+                                     class="rounded-circle me-3" id="update-img-perfil" alt="foto-de-@Model.NOMBRE">
+                                <input asp-for="FICHEROS" type="file" multiple id="update-image-file" class="input-profile d-none"
                                        accept="image/png, image/jpeg">
                                 <label for="update-image-file" id="descargar-foto-label">Cambiar</label>
                             </div>
                         </div>
 
                         <div class="col-6 mb-2">
-                            <label for="" class="col-form-label">
+                            <label asp-for="NOMBRE" class="col-form-label">
                                 Nombre<span class="required">#</span>
                             </label>
-                            <input type="text" class="form-control input-profile"
-                                   placeholder="Insertar su nombre" value="Carlos Eliezer" autocomplete="off"
+                            <input asp-for="NOMBRE" type="text" class="form-control input-profile"
+                                   placeholder="Insertar su nombre" value="@Model.NOMBRE" autocomplete="off"
                                    required>
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="col-6 mb-2">
-                            <label for="" class="col-form-label">
+                            <label asp-for="APELLIDO" class="col-form-label">
                                 Apellido<span class="required">#</span>
                             </label>
-                            <input type="text" class="form-control input-profile"
-                                   placeholder="Insertar su apellido" value="Santos" autocomplete="off"
+                            <input asp-for="APELLIDO" type="text" class="form-control input-profile"
+                                   placeholder="Insertar su apellido" value="@Model.APELLIDO" autocomplete="off"
                                    required>
                             <i class="fas fa-user"></i>
                         </div>
 
                         <div class="col-12 mb-2">
-                            <label for="" class="col-form-label">
+                            <label asp-for="EMAIL" class="col-form-label">
                                 Email<span class="required">#</span>
                             </label>
-                            <input type="email" class="form-control input-profile"
-                                   value="carshloz@hotmail.com" placeholder="service@hotmail.com"
+                            <input asp-for="EMAIL" type="email" class="form-control input-profile"
+                                   value="@Model.EMAIL" placeholder="service@hotmail.com"
                                    autocomplete="off">
                             <i class="fas fa-search"></i>
                         </div>
 
                         <div class="col-12 mb-2">
-                            <label for="" class="col-form-label">¿Qué andas buscando?</label>
-                            <input type="text" class="form-control input-profile"
-                                   value="Buscando programadores" placeholder="Ej: Contables"
+                            <label asp-for="BUSCANDO" class="col-form-label">¿Qué andas buscando?</label>
+                            <input asp-for="BUSCANDO" type="text" class="form-control input-profile input-buscando"
+                                   value="@Model.BUSCANDO" placeholder="Ej: Contables"
                                    autocomplete="off">
                             <i class="fas fa-search"></i>
                         </div>
                         <div class="col-12 mb-2">
-                            <label for="" class="col-form-label">Sitio Web</label>
-                            <input type="url" class="form-control input-profile" placeholder="URL"
-                                   value="www.carlosSantos.com.do" autocomplete="off">
+                            <label asp-for="URL_SITIO" class="col-form-label">Sitio Web</label>
+                            <input asp-for="URL_SITIO" type="url" class="form-control input-profile" placeholder="URL"
+                                   value="@Model.URL_SITIO" autocomplete="off">
                             <i class="fas fa-globe"></i>
                         </div>
                     </form>
@@ -525,17 +375,17 @@
                     <div class="modal-quote px-3">
                         <p>¡ Cambiar la clave cada cierto tiempo es siempre una buena opción !</p>
                     </div>
-                    <form action="" class="row modal-body pt-0 password-update-form" id="password-form">
+                    <form asp-controller="Acceso" asp-action="ActualizarContra" method="post" class="row modal-body pt-0 password-update-form" id="password-form">
 
                         <div class="col-12 mb-3">
-                            <label for="" class="col-form-label">Contraseña actual</label>
-                            <input type="password" class="form-control" placeholder="*************"
+                            <label for="vContrasena" class="col-form-label">Contraseña actual</label>
+                            <input name="vContrasena" type="password" class="form-control" placeholder="*************"
                                    autocomplete="off" required>
                             <i class="fas fa-lock"></i>
                         </div>
                         <div class="col-6 mb-3">
-                            <label for="" class="col-form-label">Contraseña nueva</label>
-                            <input type="password" class="form-control new-password"
+                            <label for="nContrasena" class="col-form-label">Contraseña nueva</label>
+                            <input name="nContrasena" type="password" class="form-control new-password"
                                    placeholder="*************" autocomplete="off" minlength="8" required>
                             <i class="fas fa-lock"></i>
                         </div>
@@ -560,100 +410,13 @@
 
                 </div>
             </div>
-        </div>
-
-
-        <!--MODAL OFERTA-->
-        <div class="modal fade" id="modal-oferta" tabindex="-1" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header mb-4 py-3  ">
-                        <h2 class="w-100 text-center m-0">ITGES</h2>
-                    </div>
-                    <div class="modal-titulo d-flex">
-                        <div class="ps-3">
-                            <img src="~/img/default-logo-empresa.png" alt="default-logo-empresa" class="rounded-circle">
-                        </div>
-                        <div class="ps-4 w-100">
-                            <h5 class="text-center pe-4 mb-3">Programador Java con razonamiento logico</h5>
-                            <div class="d-flex ps-2" style="flex-wrap: wrap;">
-                                <small><i class="fas fa-star me-1"></i>Tecnologia</small>
-                                <small class="ms-4">
-                                    <i class="fas fa-map-marker-alt me-1"></i>Santo
-                                    Domingo
-                                </small>
-                            </div>
-                            <div class="d-flex ps-2 mt-2" style="flex-wrap: wrap;">
-                                <small><i class="fas fa-folder-minus me-1"></i>Presencial</small>
-                                <small class="ms-4">
-                                    <i class="fas fas fa-clock me-1"></i>Tiempo
-                                    completo
-                                </small>
-                                <small class="ms-3">
-                                    <i class="far fa-calendar-alt me-1"></i>20 May,
-                                    2021
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-body pt-0 m-0">
-                        <div class="modal-body-descripcion">
-                            <h6 class="mt-4">Descripcion :</h6>
-                            <p class="mb-0 w-100">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt
-                                perferendis
-                                sunt
-                                voluptatem nesciunt assumenda,
-                                dolor rem eum voluptas rerum quaerat consequuntur earum quia inventore
-                                commodi
-                                cum,
-                                velit consequatur, ut natus.
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            </p>
-                        </div>
-                        <div class="modal-body-requisitos">
-                            <h6>Requisitos :</h6>
-                            <ul class="p-0 ps-2">
-                                <li>Minimo 1 año de experiencia.</li>
-                                <li>Graduado de bachillerato.</li>
-                                <li>Minimo 18 años de edad.</li>
-                                <li>Minimo 1 año de experiencia.</li>
-                            </ul>
-                        </div>
-                        <div class="modal-body-info">
-                            <p class="mb-0">
-                                <strong class="me-1">Contacto:</strong>
-                                carlosEliezerErp@hotmail.com.do
-                            </p>
-                        </div>
-                    </div>
-                    <div class="modal-footer border-0 p-0 px-2">
-                        <button type="button" class="btn btn-danger mt-2 mb-2" data-bs-dismiss="modal">
-                            <i class="fas fa-times-circle me-2"></i>Cerrar
-                        </button>
-
-                        <button type="submit" class="btn mt-0 mt-2 mb-2 bg-danger text-white"
-                                form="password-update-form">
-                            <i class="fas fa-check-circle me-2"></i>Eliminar
-                            Oferta
-                        </button>
-
-                        <button type="submit" class="btn mt-0 mt-2 mb-2"
-                                form="password-update-form">
-                            <i class="fas fa-check-circle me-2"></i>Actualizar
-                            Oferta
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div>       
     </section>
 </main>
 
+@Html.Raw(TempData["Mensaje"]);
 
 @section Scripts{
-    <script src="@Url.Content("~/js/sesion js/sesion.js")"></script>
-    <script src="@Url.Content("~/js/sesion js/img_descargar.js")"></script>
-    <script src="https://kit.fontawesome.com/1d9813da54.js" crossorigin="anonymous"></script>
+    <script src="@Url.Content("~/js/sesion/sesion.js")" asp-append-version="true" type="module"></script>
+    <script src="https://kit.fontawesome.com/1d9813da54.js" crossorigin="anonymous"></script>     
 }

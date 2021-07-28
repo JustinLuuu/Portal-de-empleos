@@ -2,6 +2,7 @@
 const visor = document.querySelector('.password-visor');
 
 
+// listeners
 visor.addEventListener('click', () => {
     var input_p = document.querySelector('.input_password');
     var eye_c = document.querySelector('.eye-closed');

@@ -1,0 +1,242 @@
+﻿@model List<Oferta>
+
+<div class="table-responsive">
+    <table class="table v-middle">
+        <thead>
+            <tr class="bg-light">
+                <th class="border-top-0">Empresa</th>
+                <th class="border-top-0">Titulo</th>
+                <th class="border-top-0">Categoria</th>
+                <th class="border-top-0">Provincia</th>
+                <th class="border-top-0">Modalidad</th>
+                <th class="border-top-0">Sueldo</th>
+                <th class="border-top-0">Fecha</th>
+                <th class="border-top-0"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (Oferta oferta in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="m-r-10">
+                                <img src="@oferta.LOGO"
+                                     alt="logo-de-@oferta.EMPRESA" width="35" class="rounded-circle">
+                            </div>
+                            <div>
+                                <h4 class="m-b-0 font-14">@oferta.EMPRESA</h4>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>                       
+                        @if (oferta.TITULO.Length > 26)
+                        {
+                            WriteLiteral(oferta.TITULO.Substring(0, 26) + "..");
+                        }
+                        else
+                        {
+                            WriteLiteral(oferta.TITULO);
+                        }
+                    </td>
+
+                    <td>
+                        @oferta.CATEGORIA.NOMBRE
+                    </td>
+
+                    <td>
+                        @oferta.PROVINCIA.NOMBRE
+                    </td>
+
+                    <td>
+                        @oferta.MODALIDAD
+                    </td>
+
+                    <td>
+                        @oferta.SUELDO.ToString().Remove(oferta.SUELDO.ToString().Length - 3)
+                        <i class="fas fa-dollar-sign"></i>
+                    </td>
+
+                    <td>
+                        @oferta.FECHAABREVIADO
+                    </td>
+
+                    <td>
+                        <i class="fas fa-eye" title="Ver detalle" data-bs-toggle="modal"
+                           data-bs-target="#modal-oferta" onclick="OfertaInfo(@oferta.ID)"></i>
+
+                         <a href=""><i class="fas fa-pencil-alt" title="Editar"></i></a>
+
+                         <i class="fas fa-trash-alt" data-idOferta="@oferta.ID" title="Eliminar"></i>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<!--MODAL OFERTA-->
+<div class="modal fade" id="modal-oferta" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header mb-4 py-3  ">
+                <h2 class="w-100 text-center m-0" id="mOferta-empresa"></h2>
+            </div>
+            <div class="modal-titulo d-flex">
+                <div class="ps-3">
+                    <img src="" alt="foto-empresa" class="rounded-circle" id="mOferta-logo">
+                </div>
+                <div class="ps-4 w-100">
+                    <h5 class="text-center pe-4 mb-3" id="mOferta-titulo"></h5>
+                    <div class="d-flex ps-2" style="flex-wrap: wrap;">
+                        <small id="mOferta-categoria"><i class="fas fa-star me-1"></i></small>
+                        <small class="ms-4" id="mOferta-provincia">
+                            <i class="fas fa-map-marker-alt me-1"></i>
+                        </small>
+                    </div>
+                    <div class="d-flex ps-2 mt-2" style="flex-wrap: wrap;">
+                        <small id="mOferta-modalidad"><i class="fas fa-folder-minus me-1"></i></small>
+                        <small class="ms-4" id="mOferta-tiempo">
+                            <i class="fas fas fa-clock me-1"></i>
+                        </small>
+                        <small class="ms-3" id="mOferta-fecha">
+                            <i class="far fa-calendar-alt me-1"></i>
+                        </small>
+                    </div>                    
+                </div>
+            </div>
+            <div class="modal-body pt-0 m-0">
+                <div class="modal-body-descripcion">
+                    <h6 class="mt-1">Descripcion :</h6>
+                    <p class="mb-0 w-100" id="mOferta-descripcion">
+                    </p>
+                </div>
+                <div class="modal-body-requisitos">
+                    <h6>Requisitos :</h6>
+                    <ul class="p-0 ps-3" id="mOferta-requisitos">
+                    </ul>
+                </div>
+                <div class="modal-body-info">                    
+                    <p class="mb-0" id="mOferta-contacto">
+                        <i class="fas fa-mail-bulk me-2"></i>
+                    </p>
+                </div>       
+                <div class="mt-2">
+                    <p class="mb-0" id="mOferta-sueldo">                        
+                        <i class="fas fa-money-bill-wave me-1"></i>                        
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-0 px-2">
+                <button type="button" class="btn btn-danger mt-2 mb-2" data-bs-dismiss="modal">
+                    <i class="fas fa-times-circle me-2"></i>Cerrar
+                </button>
+
+                <button class="btn btn-danger mt-0 mt-2 mb-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Eliminar oferta" id="btn-eliminarOferta">
+                    <i class="fas fa-trash-alt text-white"></i>
+                </button>
+
+                <button class="btn btn-warning border-0 mt-0 mt-2 mb-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                 title="Actualizar oferta">
+                    <i class="fas fa-pencil-alt text-white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const arrayOfertas = @Html.Raw(Json.Serialize(Model));
+    function OfertaInfo(idOferta) {
+        const oferta = arrayOfertas.find(x => x.id === idOferta);
+
+        document.querySelector('#mOferta-empresa').textContent = oferta.empresa;
+        document.querySelector('#mOferta-logo').src = oferta.logo;
+        document.querySelector('#mOferta-titulo').textContent = oferta.titulo;
+        document.querySelector('#mOferta-descripcion').textContent = oferta.descripcion;
+
+        const ofertaCat = document.querySelector('#mOferta-categoria');
+        if (ofertaCat.childNodes.length >1)
+            ofertaCat.removeChild(ofertaCat.lastChild);
+        ofertaCat.appendChild(document.createTextNode(oferta.categoria.nombre));
+
+        const ofertaPro = document.querySelector('#mOferta-provincia');
+        ofertaPro.removeChild(ofertaPro.lastChild);
+        ofertaPro.appendChild(document.createTextNode(oferta.provincia.nombre));
+
+        const ofertaMod = document.querySelector('#mOferta-modalidad');
+        if (ofertaMod.childNodes.length > 1)
+            ofertaMod.removeChild(ofertaMod.lastChild);
+        ofertaMod.appendChild(document.createTextNode(oferta.modalidad));
+
+        const ofertaTiem = document.querySelector('#mOferta-tiempo');
+        ofertaTiem.removeChild(ofertaTiem.lastChild);
+        ofertaTiem.appendChild(document.createTextNode(oferta.tiempo));
+
+        const ofertaCont = document.querySelector('#mOferta-contacto');
+        ofertaCont.removeChild(ofertaCont.lastChild);
+        ofertaCont.appendChild(document.createTextNode(oferta.emaiL_CONTACTO));
+        
+        const ofertaFec = document.querySelector('#mOferta-fecha');
+        ofertaFec.removeChild(ofertaFec.lastChild);
+        ofertaFec.appendChild(document.createTextNode(oferta.fechaabreviado));
+
+        const ofertaSuel = document.querySelector('#mOferta-sueldo');
+        ofertaSuel.removeChild(ofertaSuel.lastChild);
+        ofertaSuel.appendChild(document.createTextNode(oferta.sueldo + ' RD$'));
+
+        const requisitosUl = document.querySelector('#mOferta-requisitos');
+        while (requisitosUl.firstChild) {
+            requisitosUl.removeChild(requisitosUl.firstChild);
+        }
+        oferta.requisitos.forEach(x => {
+            const li = document.createElement('li');
+            li.textContent = x;
+            requisitosUl.appendChild(li);
+        });
+
+        const btnEliminar = document.querySelector('#btn-eliminarOferta');
+        btnEliminar.addEventListener('click', () => { EliminarOferta(idOferta) });
+    }
+
+    function EliminarOferta(idOferta) {
+        Swal.fire({
+            text: '¿ Seguro que quieres eliminar esta oferta ?',
+            imageUrl: `../img/basura.png`,
+            imageWidth: 140,
+            imageHeight: 140,
+            imageAlt: 'bote-basura',
+            showDenyButton: true,
+            denyButtonText: 'Cancelar',
+            denyButtonColor: '#E19216',
+            showConfirmButton: true,
+            confirmButtonColor: '#D14529',
+            confirmButtonText: 'Eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'EliminarOferta';
+                form.controller = 'Acceso';
+                form.style.display = 'none';
+
+                const id = document.createElement('input');
+                id.setAttribute('name', 'ID');
+                id.setAttribute('type', 'hidden');
+                id.setAttribute('value', idOferta);
+                const token = document.getElementsByName("__RequestVerificationToken")[0].cloneNode(true);
+
+                form.appendChild(id);
+                form.appendChild(token);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+
+</script>

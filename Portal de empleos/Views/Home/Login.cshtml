@@ -1,9 +1,11 @@
-﻿@{
+﻿@model Portal_de_empleos.Models.Ofertante
+
+@{
     ViewData["Title"] = "Login";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="@Url.Content("~/css/login.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/login.css")" asp-append-version="true"/>
 }
 
 <div class="row d-flex justify-content-center">
@@ -18,15 +20,15 @@
     <div class="col-12 col-sm-12 col-md-5 col-lg-5 bg-white container-child">
         <main>
             <h4 class="pt-1">Inicia sesión y comienza a publicar nuevas oportunidades de empleo</h4>
-            <form method="post" class="d-flex flex-column">
+            <form asp-action="Login" asp-controller="Home" method="post" class="d-flex flex-column">
                 <div class="mb-3 position-relative">
-                    <label class="form-label">Email</label>
-                    <input type="email" required class="form-control ps-5" placeholder="email@service.com">
+                    <label asp-for="EMAIL" class="form-label">Email</label>
+                    <input asp-for="EMAIL" type="email" required class="form-control ps-5" placeholder="email@service.com">
                     <i class="fas fa-envelope mail position-absolute"></i>
                 </div>
                 <div class="mb-4 position-relative">
-                    <label class="form-label">Contraseña</label>
-                    <input type="password" required class="form-control ps-5 input_password"
+                    <label asp-for="CONTRASENA" class="form-label">Contraseña</label>
+                    <input asp-for="CONTRASENA" type="password" required class="form-control ps-5 input_password"
                            placeholder="**************">
                     <i class="fas fa-lock pass position-absolute"></i>
                     <div class="password-visor position-absolute d-flex justify-content-end">
@@ -44,14 +46,27 @@
 
             <span class="link-register d-flex justify-content-center w-100 d-block mt-4">
                 Aún no tienes cuenta?
-                <a href="#!" class="ps-1">Regístrate</a>
+                <a asp-action="Registro" class="ps-1">Regístrate</a>
             </span>
-            <a class="btn btn-success w-100 btn-register mt-2" href="#!">Registrarse</a>
+            <a asp-action="Registro" class="btn btn-success w-100 btn-register mt-2">Registrarse</a>
         </main>
     </div>
 </div>
 
+@if (ViewData["NoExiste"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'ATENCION',
+            html: '<strong style="color:#F27474; font-size:18px;">¡ Email o contraseña incorrectas !</strong>',            
+            showConfirmButton: true,
+            confirmButtonText: 'Cerrar'
+        })
+    </script>
+}
+
 @section scripts{
-    <script src="@Url.Content("~/js/login.js")"></script>
+    <script src="@Url.Content("~/js/login.js")" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/1d9813da54.js" crossorigin="anonymous"></script>
 }

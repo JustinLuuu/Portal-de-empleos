@@ -1,9 +1,11 @@
-﻿@{
+﻿@model Portal_de_empleos.Models.Ofertante
+
+@{
     ViewData["Title"] = "Registro";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="@Url.Content("~/css/registro.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/registro.css")" asp-append-version="true"/>
 }
 
 
@@ -30,36 +32,36 @@
 
             <form method="post" class="row">
                 <div class="col-md-6 col-lg-6 mb-3">
-                    <label class="form-label">Nombre<span class="required ps-2">#</span></label>
-                    <input type="text" required class="form-control" placeholder="Insertar su nombre" autocomplete="off"
+                    <label asp-for="NOMBRE" class="form-label">Nombre<span class="required ps-2">#</span></label>
+                    <input asp-for="NOMBRE" type="text" required class="form-control" placeholder="Insertar su nombre" autocomplete="off"
                            data-val="false" data-val-required="">
                     <i class="fas fa-user"></i>
                 </div>
 
                 <div class="col-md-6 col-lg-6 mb-3">
-                    <label class="form-label">Apellido<span class="required ps-2">#</span></label>
-                    <input type="text" required class="form-control" placeholder="Insertar su apellido" autocomplete="off"
+                    <label asp-for="APELLIDO" class="form-label">Apellido<span class="required ps-2">#</span></label>
+                    <input asp-for="APELLIDO" type="text" required class="form-control" placeholder="Insertar su apellido" autocomplete="off"
                            data-val="false" data-val-required="">
                     <i class="fas fa-user"></i>
                 </div>
 
                 <div class="col-md-12 col-lg-12 mb-3">
-                    <label class="form-label">Email<span class="required ps-2">#</span></label>
-                    <input type="email" required class="form-control" placeholder="Insertar su correo"
+                    <label asp-for="EMAIL" class="form-label">Email<span class="required ps-2">#</span></label>
+                    <input asp-for="EMAIL" type="email" required class="form-control" placeholder="Insertar su correo"
                            data-val="false" data-val-required="">
                     <i class="fas fa-envelope"></i>
                 </div>
 
                 <div class="col-md-12 col-lg-12 mb-3">
-                    <label class="form-label">Sitio Web</label>
-                    <input type="url" class="form-control" placeholder="URL" autocomplete="off"
+                    <label asp-for="URL_SITIO" class="form-label">Sitio Web</label>
+                    <input asp-for="URL_SITIO" type="url" class="form-control" placeholder="URL" autocomplete="off"
                            data-val="false" data-val-required="">
                     <i class="fas fa-globe"></i>
                 </div>
 
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mb-3 position-relative">
-                    <label class="form-label">Contraseña<span class="required ps-2">#</span></label>
-                    <input type="password" required class="form-control password input_password"
+                    <label asp-for="CONTRASENA" class="form-label">Contraseña<span class="required ps-2">#</span></label>
+                    <input asp-for="CONTRASENA" type="password" required class="form-control password input_password"
                            placeholder="************" minlength="8" data-val="false" data-val-required="">
                     <i class="fas fa-lock"></i>
                     <div class="password-visor">
@@ -84,14 +86,14 @@
 
             <span class="link-login d-flex justify-content-center w-100 d-block mt-3 mb-3">
                 Ya estas registrado?
-                <a asp-controller="Home" asp-action="Login" class="ps-2">Inicia sesión</a>
+                <a asp-action="Login" class="ps-2">Inicia sesión</a>
             </span>
-            <a asp-controller="Home" asp-action="Login" class="btn btn-success w-100 btn-login mt-2">Inicia Sesión</a>
+            <a asp-action="Login" class="btn btn-success w-100 btn-login mt-2">Inicia Sesión</a>
         </main>
     </div>
 </div>
 
 @section scripts{
-    <script src="@Url.Content("~/js/registro/registro.js")" type="module"></script>
+    <script src="@Url.Content("~/js/registro/registro.js")" asp-append-version="true" type="module"></script>
     <script src="https://kit.fontawesome.com/1d9813da54.js" crossorigin="anonymous"></script>
 }

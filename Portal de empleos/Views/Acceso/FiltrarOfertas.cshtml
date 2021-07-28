@@ -1,0 +1,91 @@
+﻿@model List<Oferta>
+
+@section Styles {
+    <link rel="stylesheet" href='@Url.Content("~/css/filtrarOfertas.css")' asp-append-version="true" />
+}
+
+@section Header{
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light my-navbar">
+
+            <button type="button" class="navbar-toggler" data-bs-target="#menu" data-bs-toggle="collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="d-flex m-auto w-100" style="list-style: none;">
+
+                    <li>
+                        <a asp-action="Sesion">
+                            <i class="fas fa-igloo"></i>
+                        </a>
+                    </li>
+
+                    <li class="m-auto">
+                        <form asp-controller="Acceso" asp-action="FiltrarOfertas" method="get" class="m-auto nav-searcher">
+                            <div class="input-group">
+                                <input type="text" name="busqueda" class="form-control bg-light shadow-none"
+                                       placeholder="Haz una nueva búsqueda..">
+
+                                <div class="input-group-append">
+                                    <button class="btn my-navbar-button-search" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+}
+
+<main>
+    @if (Model.Count > 0)
+    {
+        <section class="container-fluid px-lg-4 pt-3">
+            <div class="col-md-12">
+                <div class="card border-0 mb-5">
+                    <div class="card-body mb-2">
+                        <div class="d-flex flex-column justify-content-center pt-1">
+                            <img src="~/img/pinguinopescando.png" class="d-block m-auto"
+                                 width="170" alt="pinguino-pescando">
+                            <div class="text-center pt-2">
+                                <h1 class="card-title h4">
+                                    Resultados de <span class="text-capitalize">"@ViewBag.Busqueda"</span>
+                                </h1>
+                                <h5 class="card-subtitle">¡ @Model.Count coincidencias encontradas !</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Invocando vista parcial para mostrar tabla de ofertas*@
+                    <partial name="_OfertasDatos" model="Model" />
+                    <div class="d-flex justify-content-center mb-2">
+                        <a asp-action="Sesion"><i class="fas fa-arrow-circle-left me-2"></i>Ir devuelta a mi espacio</a>
+                    </div>
+                </div>
+                <form asp-action="EliminarOferta" asp-controller="Acceso" method="post" id="form-eliminarOferta">
+                     <input type="hidden" name="ID" id="idOferta" value=""/>
+                </form>
+            </div>
+        </section>
+    }
+    else
+    {
+        <section class="text-center mt-5">
+            <img src="~/img/pinguinodurmiendo.png" class="d-block m-auto pt-4"
+                 width="240" alt="pinguino-durmiendo">
+            <h2 class="pt-4">Búsqueda sin resultados</h2>
+            <a asp-action="Sesion"><i class="fas fa-arrow-circle-left me-2"></i>Ir devuelta a mi espacio</a>
+        </section>
+    }
+</main>
+
+@section Scripts{
+    <script src="@Url.Content("~/js/filtrarOfertas.js")" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/1d9813da54.js" crossorigin="anonymous"></script>    
+}

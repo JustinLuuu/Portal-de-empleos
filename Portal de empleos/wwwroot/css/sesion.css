@@ -217,6 +217,14 @@ background-color: #1F8FC3; color: white;
     font-size: 16px;
 }
 
+.font-12{
+    font-size:12px;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
 .m-r-10 {
     margin-right: 10px;
 }
@@ -245,6 +253,10 @@ background-color: #1F8FC3; color: white;
     border-top: 1px solid #dee2e6;
 }
 
+.table td {
+    font-size: 13.3px;
+}
+
 .table tr:nth-child(even){
     background-color: #F0F0F0;
 }
@@ -270,9 +282,22 @@ tr td:last-child i:hover{
     color:#165470;
 }
 
+.btn-agregar-oferta {
+    background-color: #1F8FC3;
+    width: 20rem;
+}
+
+
+.fa-dollar-sign, .fa-money-bill-wave {
+    color: #1fc371;
+}
+
+.fa-mail-bulk {
+    font-size: 16px;
+    color: #1F8FC3;
+}
 
 /* footer */
-
 footer.footer {
     padding: 1rem .875rem;
     direction: ltr;
@@ -469,7 +494,6 @@ footer.footer ul {
 #modal-oferta .modal-header{ 
     background-color: #1F8FC3;
     color:white;
-
 }
 
 #modal-oferta .modal-header h2{
@@ -521,6 +545,10 @@ footer.footer ul {
     font-size: .8em;
  }
 
+ #modal-oferta #mOferta-sueldo{
+     font-size:12px;
+ }
+
  #modal-oferta .modal-footer button, #modal-update-password .modal-footer button{
     font-size: 12.4px;
     height: 29px;
@@ -530,10 +558,10 @@ footer.footer ul {
     margin-right: auto;
 }
 
-#modal-oferta .modal-footer button:last-child, #modal-update-password .modal-footer button:last-child{
-    background-color: rgb(81, 151, 81);
-    color:white;
-}
+    #modal-oferta .modal-footer button:last-child, #modal-update-password .modal-footer button:last-child {
+        background-color: rgb(81, 151, 81);
+        color: white;
+    }
 
 
 /* media queries */ 
@@ -600,7 +628,9 @@ footer.footer ul {
     #modal-update-password form div:nth-child(n+2), #modal-update-perfil form > div:nth-child(n+2){
         width: 100% !important;
     }
-
+    .btn-agregar-oferta {
+        width: 70%;
+    }
 }
 
 
