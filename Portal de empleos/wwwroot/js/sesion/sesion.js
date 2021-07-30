@@ -196,7 +196,6 @@ function EnviarPeticion(tipoOrden) {
     .then((res) => {
         OrdenarTabla(res);
         CambiarTituloOrden(tipoOrden);
-        AgregarEventIconoBasura();
     });
 }
 
